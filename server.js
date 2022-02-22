@@ -41,19 +41,28 @@ app.get('/', (request, response) => {
 });
 
 app.post('/', (request, response) => {
-  const { date, type,  } = request.body;
-
-  if (!name || !date || !time || !number ) {
-    return response.status(422).json({
-      error: 'Expected format { name: <String>, date: <String>, time: <String>, number: <Number> }. You are missing a required parameter.'
-    })
+  const { date, type, id, mood, body} = request.body;
+  if (type === 'mood'){
+    if (!id || !date || !mood){
+        return response.status(422).json({
+          error: 'Expected format { id: <Number>, date: <String>, mood: <Number>}. You are missing a required parameter.'
+        })
+      }
+    const newMood = {id, date, mood };
+    app.locals.user.moods = [...app.locals.user.moods, newMood];
+    return response.status(201).json(newMood);
+    }
+    
+  if (type === 'journal'){
+    if (!id || !date || !body){
+        return response.status(422).json({
+          error: 'Expected format { id: <Number>, date: <String>, body: <String>}. You are missing a required parameter.'
+        })
+      }
+    const newJournal = {id, date, body };
+    app.locals.user.journal = [...app.locals.user.journal, newJournal];
+    return response.status(201).json(newJournal);
   }
-
-  const newReservation = {id: Date.now(), name, date, time, number};
-
-  app.locals.reservations = [...app.locals.reservations, newReservation];
-
-  return response.status(201).json(newReservation);
 });
 
 app.listen(app.get('port'), () => {
