@@ -15,7 +15,7 @@ app.locals.user = {
     lastName: 'De Mariposa',
     pronouns: 'she/her',
     journal: [
-    {id: 1, date: '02/21/21', body: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas aliquam urna a sollicitudin porttitor. Sed bibendum arcu metus, sit amet rhoncus ante pulvinar et. Suspendisse sit amet ex aliquam turpis dapibus luctus id quis sapien. Ut vestibulum lorem ut pulvinar scelerisque. Maecenas et nibh vel quam consequat blandit. Nam sem velit, pretium eu velit et, rhoncus porttitor eros. Curabitur auctor eros nisi, a tempor massa pulvinar vel. Donec faucibus nisi et lorem tristique, nec sodales tortor cursus. Praesent tempor ultrices erat, id malesuada arcu tempus a. Vivamus dapibus, nisi tempus varius porttitor, ipsum tellus convallis metus, et bibendum lectus metus id mi. Donec ullamcorper non augue eget consequat.'}, 
+    {id: 1, date: '02/21/21', body: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas aliquam urna a sollicitudin porttitor. Sed bibendum arcu metus, sit amet rhoncus ante pulvinar et. Suspendisse sit amet ex aliquam turpis dapibus luctus id quis sapien. Ut vestibulum lorem ut pulvinar scelerisque. Maecenas et nibh vel quam consequat blandit. Nam sem velit, pretium eu velit et, rhoncus porttitor eros. Curabitur auctor eros nisi, a tempor massa pulvinar vel. Donec faucibus nisi et lorem tristique, nec sodales tortor cursus. Praesent tempor ultrices erat, id malesuada arcu tempus a. Vivamus dapibus, nisi tempus varius porttitor, ipsum tellus convallis metus, et bibendum lectus metus id mi. Donec ullamcorper non augue eget consequat.'},
     {id: 2, date: '03/07/2003', body: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas aliquam urna a sollicitudin porttitor. Sed bibendum arcu metus, sit amet rhoncus ante pulvinar et. Suspendisse sit amet ex aliquam turpis dapibus luctus id quis sapien. Ut vestibulum lorem ut pulvinar scelerisque. Maecenas et nibh vel quam consequat blandit. Nam sem velit, pretium eu velit et, rhoncus porttitor eros. Curabitur auctor eros nisi, a tempor massa pulvinar vel. Donec faucibus nisi et lorem tristique, nec sodales tortor cursus. Praesent tempor ultrices erat, id malesuada arcu tempus a. Vivamus dapibus, nisi tempus varius porttitor, ipsum tellus convallis metus, et bibendum lectus metus id mi. Donec ullamcorper non augue eget consequat'},
       { id: 3, date: '01/23/2018', body: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas aliquam urna a sollicitudin porttitor. Sed bibendum arcu metus, sit amet rhoncus ante pulvinar et. Suspendisse sit amet ex aliquam turpis dapibus luctus id quis sapien. Ut vestibulum lorem ut pulvinar scelerisque. Maecenas et nibh vel quam consequat blandit. Nam sem velit, pretium eu velit et, rhoncus porttitor eros. Curabitur auctor eros nisi, a tempor massa pulvinar vel. Donec faucibus nisi et lorem tristique, nec sodales tortor cursus. Praesent tempor ultrices erat, id malesuada arcu tempus a. Vivamus dapibus, nisi tempus varius porttitor, ipsum tellus convallis metus, et bibendum lectus metus id mi. Donec ullamcorper non augue eget consequat.'},
       { id: 4, date: '09/20/1999', body: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.Maecenas aliquam urna a sollicitudin porttitor.Sed bibendum arcu metus, sit amet rhoncus ante pulvinar et.Suspendisse sit amet ex aliquam turpis dapibus luctus id quis sapien.Ut vestibulum lorem ut pulvinar scelerisque.Maecenas et nibh vel quam consequat blandit.Nam sem velit, pretium eu velit et, rhoncus porttitor eros.Curabitur auctor eros nisi, a tempor massa pulvinar vel.Donec faucibus nisi et lorem tristique, nec sodales tortor cursus.Praesent tempor ultrices erat, id malesuada arcu tempus a.Vivamus dapibus, nisi tempus varius porttitor, ipsum tellus convallis metus, et bibendum lectus metus id mi.Donec ullamcorper non augue eget consequat.'}
@@ -37,8 +37,23 @@ app.get('/', (request, response) => {
     if (!user) {
       return response.sendStatus(404);
     }
-  
     response.status(200).json(user);
+});
+
+app.post('/', (request, response) => {
+  const { date, type,  } = request.body;
+
+  if (!name || !date || !time || !number ) {
+    return response.status(422).json({
+      error: 'Expected format { name: <String>, date: <String>, time: <String>, number: <Number> }. You are missing a required parameter.'
+    })
+  }
+
+  const newReservation = {id: Date.now(), name, date, time, number};
+
+  app.locals.reservations = [...app.locals.reservations, newReservation];
+
+  return response.status(201).json(newReservation);
 });
 
 app.listen(app.get('port'), () => {
