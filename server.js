@@ -21,10 +21,10 @@ app.locals.user = {
       { id: 4, date: '02/23/2021', body: 'My thoughts on failure- If everything I did failed (which it does not, it actually succeeds) just the fact that I am willing to fail is an inspiration. People are so scared to lose that they do not even try. I am not afraid. The one thing people cannot say is that I am not trying, and I am not trying my hardest, and I am not trying to do the best I know how. I truly am an inspiration.'}
     ],
     moods: [
-      {id: 1, date: '04/18/2018', mood: 1},
-      {id: 2, date: '07/28/2012', mood: 2},
-      {id: 3, date: '08/05/2008', mood: 3},
-      {id: 4, date: '05/12/2013', mood: 4}
+      { id: 1, date: '02/20/2021', mood: 1},
+      { id: 2, date: '02/21/2021', mood: 2},
+      { id: 3, date: '02/22/2021', mood: 3},
+      { id: 4, date: '02/23/2021', mood: 4}
 
     ],
     sleepData: [],
