@@ -21,10 +21,10 @@ app.locals.user = {
       { id: 4, date: '02/23/2021', body: 'My thoughts on failure- If everything I did failed (which it does not, it actually succeeds) just the fact that I am willing to fail is an inspiration. People are so scared to lose that they do not even try. I am not afraid. The one thing people cannot say is that I am not trying, and I am not trying my hardest, and I am not trying to do the best I know how. I truly am an inspiration.'}
     ],
     moods: [
-      { id: 1, date: '02/20/2021', mood: 1},
-      { id: 2, date: '02/21/2021', mood: 2},
-      { id: 3, date: '02/22/2021', mood: 3},
-      { id: 4, date: '02/23/2021', mood: 4}
+      { id: 1, date: '02/20/2022', mood: 1, time: '1:59'},
+      { id: 2, date: '02/21/2022', mood: 2, time: '2:07'},
+      { id: 3, date: '02/22/2022', mood: 3, time: '12:27'},
+      { id: 4, date: '02/23/2022', mood: 4, time: '7:07'}
 
     ],
     sleepData: [],
@@ -41,18 +41,18 @@ app.get('/', (request, response) => {
 });
 
 app.post('/', (request, response) => {
-  const { date, type, id, mood, body} = request.body;
+  const { date, type, id, mood, time, body} = request.body;
   if (type === 'mood'){
-    if (!id || !date || !mood){
+    if (!id || !date || !mood || !time){
         return response.status(422).json({
-          error: 'Expected format { id: <Number>, date: <String>, mood: <Number>}. You are missing a required parameter.'
+          error: 'Expected format { id: <Number>, date: <String>, time: <String>, mood: <Number>}. You are missing a required parameter.'
         })
       }
-    const newMood = {id, date, mood };
+    const newMood = {id, date, mood, time };
     app.locals.user.moods = [...app.locals.user.moods, newMood];
     return response.status(201).json(newMood);
     }
-    
+
   if (type === 'journal'){
     if (!id || !date || !body){
         return response.status(422).json({
