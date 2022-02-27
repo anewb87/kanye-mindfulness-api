@@ -77,12 +77,17 @@ app.delete('/dashboard/:id', (request, response) => {
     })
   }
 
-  app.locals.user.journal = journal.filter(entry => entry.id !== id);
+  // app.locals.user.journal = journal.filter(entry => entry.id !== id);
+  const index = app.locals.user.journal.indexOf(journalEntryToDelete);
+  app.locals.user.journal.splice(index, 1);
 
   response.status(200).json({
-    message: `Journal entry #${id} has been deleted`
+    message: `Journal entry #${id} has been deleted`,
   })
+  return app.locals.user.journal
 });
+
+
 
 app.listen(app.get('port'), () => {
   console.log(`${app.locals.title} is running on http://localhost:${app.get('port')}.`);
