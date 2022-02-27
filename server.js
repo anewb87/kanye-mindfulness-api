@@ -65,6 +65,25 @@ app.post('/', (request, response) => {
   }
 });
 
+app.delete('/dashboard/:id', (request, response) => {
+  const { id } = request.params;
+  const { journal } = app.locals.user;
+  
+  const journalEntryToDelete = journal.find(entry => entry.id === parseInt(id));
+
+  if (!journalEntryToDelete) {
+    return response.status(404).json({
+      message: `No found entry with id of #${id}.`
+    })
+  }
+
+  app.locals.user.journal = journal.filter(entry => entry.id !== id);
+
+  response.status(200).json({
+    message: `Journal entry #${id} has been deleted`
+  })
+});
+
 app.listen(app.get('port'), () => {
   console.log(`${app.locals.title} is running on http://localhost:${app.get('port')}.`);
 });
